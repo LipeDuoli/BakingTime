@@ -1,8 +1,8 @@
 package com.example.android.bakingtime.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,15 +60,19 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
         mRecipeRecyclerView.setHasFixedSize(true);
 
-        if (getResources().getBoolean(R.bool.isTabletMode)) {
-            mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        } else {
-            mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        }
+        mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//        if (getResources().getBoolean(R.bool.isTabletMode)) {
+//            mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+//        } else {
+//
+//        }
     }
 
     @Override
     public void onClickRecipe(Recipe recipe) {
-
+        Intent recipeIntent = new Intent(this, RecipeStepActivity.class);
+        recipeIntent.putExtra(RecipeStepActivity.EXTRA_RECIPE, recipe);
+        startActivity(recipeIntent);
     }
 }
