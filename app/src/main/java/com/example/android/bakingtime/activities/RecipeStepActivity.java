@@ -1,5 +1,6 @@
 package com.example.android.bakingtime.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -39,6 +40,8 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
 
     @Override
     public void onStepSelected(int stepPosition) {
-        // TODO: start new activity
+        Intent stepDetailIntent = new Intent(this, StepDetailActivity.class);
+        stepDetailIntent.putExtra(StepDetailActivity.EXTRA_STEP, mRecipe.getSteps().get(stepPosition));
+        startActivity(stepDetailIntent);
     }
 }
