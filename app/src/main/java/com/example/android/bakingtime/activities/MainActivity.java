@@ -1,9 +1,10 @@
 package com.example.android.bakingtime.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -60,13 +61,21 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
         mRecipeRecyclerView.setHasFixedSize(true);
 
-        mRecipeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, getSpanCount()));
 
-//        if (getResources().getBoolean(R.bool.isTabletMode)) {
-//            mRecipeRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-//        } else {
-//
-//        }
+    }
+
+    private int getSpanCount() {
+        int orientation = getResources().getConfiguration().orientation;
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT){
+            if (isTablet) return 2;
+            else return 1;
+        } else {
+            if (isTablet) return 3;
+            else return 2;
+        }
     }
 
     @Override

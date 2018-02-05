@@ -32,6 +32,7 @@ import butterknife.Unbinder;
 public class StepDetailFragment extends Fragment {
 
     private static final String TAG = StepDetailFragment.class.getSimpleName();
+    private static final String SAVED_PLAYER_POSITION = "savedPlayerPosition";
 
     @BindView(R.id.exo_step_video)
     SimpleExoPlayerView mStepVideo;
@@ -44,6 +45,7 @@ public class StepDetailFragment extends Fragment {
 
     private Step mStep;
     private SimpleExoPlayer mExoPlayer;
+    private long mVideoPosition;
 
     @Nullable
     @Override
@@ -61,6 +63,10 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_PLAYER_POSITION)){
+            mVideoPosition = savedInstanceState.getLong(SAVED_PLAYER_POSITION);
+        }
 
         if (!mStep.getVideoURL().isEmpty()) {
             initializePlayer(Uri.parse(mStep.getVideoURL()));
@@ -110,23 +116,34 @@ public class StepDetailFragment extends Fragment {
                     .Factory(defaultDataSourceFactory).createMediaSource(mediaUri);
 
             mExoPlayer.prepare(mediaSource);
+            mExoPlayer.seekTo(mVideoPosition);
             mExoPlayer.setPlayWhenReady(true);
         }
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putLong(SAVED_PLAYER_POSITION, mExoPlayer.getContentPosition());
+        super.onSaveInstanceState(outState);
+    }
+
     private void releasePlayer() {
         if (mExoPlayer != null) {
-            mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;
         }
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        releasePlayer();
         mUnbinder.unbind();
     }
 }

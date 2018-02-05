@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.android.bakingtime.R;
 import com.example.android.bakingtime.model.Ingredient;
+import com.example.android.bakingtime.util.IngredientUtil;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         Ingredient ingredient = mIngredients.get(position);
 
         holder.mIngredientName.setText(mContext.getString(R.string.ingredients_display,
-                ingredient.getQuantity(),
+                IngredientUtil.formatQuantity(ingredient.getQuantity()),
                 ingredient.getMeasure(),
                 ingredient.getIngredient()));
     }

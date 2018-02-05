@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 public class StepDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_STEP = "extraStep";
+    public static final String EXTRA_RECIPE_NAME = "recipeName";
 
 
     @Override
@@ -23,9 +24,16 @@ public class StepDetailActivity extends AppCompatActivity {
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE){
             getSupportActionBar().hide();
+        } else {
+            if(getIntent().hasExtra(EXTRA_RECIPE_NAME)){
+                getSupportActionBar().setTitle(getIntent().getStringExtra(EXTRA_RECIPE_NAME));
+            }
         }
 
-        initStepFragment();
+        // if saved instance is not null, fragment is already initialized
+        if (savedInstanceState == null){
+            initStepFragment();
+        }
     }
 
     private void initStepFragment() {

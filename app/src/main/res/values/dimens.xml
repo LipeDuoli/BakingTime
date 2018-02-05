@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="video_heigh_size">203dp</dimen>
+    <dimen name="video_heigh_size_tablet">303dp</dimen>
+    <dimen name="recipe_img_height">150dp</dimen>
 </resources>

@@ -4,4 +4,4 @@
     android:id="@+id/tv_ingredient_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:text="1 chicara de farinha" />
+    tools:text="1 xicara de farinha" />

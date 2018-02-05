@@ -8,7 +8,8 @@
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/exo_step_video"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/video_heigh_size"
+        android:layout_height="@dimen/video_heigh_size_tablet"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -16,21 +17,28 @@
     <ImageView
         android:id="@+id/iv_step_image"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/video_heigh_size"
+        android:layout_height="@dimen/video_heigh_size_tablet"
+        android:layout_marginTop="8dp"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/exo_step_video" />
 
-    <TextView
-        android:id="@+id/tv_step_description"
-        style="@style/TextAppearance.AppCompat.Medium"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_step_image"
-        tools:text="bata os ovos" />
+        app:layout_constraintTop_toBottomOf="@id/iv_step_image">
+
+        <TextView
+            android:id="@+id/tv_step_description"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            tools:text="bata os ovos" />
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
