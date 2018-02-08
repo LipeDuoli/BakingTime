@@ -2,6 +2,7 @@ package com.example.android.bakingtime.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.bakingtime.R;
@@ -9,6 +10,8 @@ import com.example.android.bakingtime.fragments.RecipeStepFragment;
 import com.example.android.bakingtime.fragments.StepDetailFragment;
 import com.example.android.bakingtime.model.Recipe;
 import com.example.android.bakingtime.model.Step;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -68,7 +71,7 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
             StepDetailFragment stepDetailFragment = new StepDetailFragment();
 
             Bundle bundle = new Bundle();
-            bundle.putParcelable(StepDetailActivity.EXTRA_STEP, stepSelected);
+            bundle.putParcelable(StepDetailFragment.EXTRA_STEP, stepSelected);
 
             stepDetailFragment.setArguments(bundle);
 
@@ -78,7 +81,8 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
 
         } else {
             Intent stepDetailIntent = new Intent(this, StepDetailActivity.class);
-            stepDetailIntent.putExtra(StepDetailActivity.EXTRA_STEP, stepSelected);
+            stepDetailIntent.putParcelableArrayListExtra(StepDetailActivity.EXTRA_STEPS, new ArrayList<Parcelable>(mRecipe.getSteps()));
+            stepDetailIntent.putExtra(StepDetailActivity.EXTRA_STEP_SELECTED, stepPosition);
             stepDetailIntent.putExtra(StepDetailActivity.EXTRA_RECIPE_NAME, mRecipe.getName());
             startActivity(stepDetailIntent);
         }

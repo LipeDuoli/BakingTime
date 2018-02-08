@@ -1,5 +1,6 @@
 package com.example.android.bakingtime.fragments;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingtime.R;
-import com.example.android.bakingtime.activities.StepDetailActivity;
 import com.example.android.bakingtime.model.Step;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -32,6 +32,7 @@ import butterknife.Unbinder;
 public class StepDetailFragment extends Fragment {
 
     private static final String TAG = StepDetailFragment.class.getSimpleName();
+    public static final String EXTRA_STEP = "extraStep";
     private static final String SAVED_PLAYER_POSITION = "savedPlayerPosition";
 
     @BindView(R.id.exo_step_video)
@@ -53,8 +54,8 @@ public class StepDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_step_detail, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
-        if (getArguments().containsKey(StepDetailActivity.EXTRA_STEP)) {
-            mStep = getArguments().getParcelable(StepDetailActivity.EXTRA_STEP);
+        if (getArguments().containsKey(EXTRA_STEP)) {
+            mStep = getArguments().getParcelable(EXTRA_STEP);
         }
 
         return view;
@@ -79,9 +80,25 @@ public class StepDetailFragment extends Fragment {
             hideImage();
         }
 
-        if (mStepDescription != null) {
-            mStepDescription.setText(mStep.getDescription());
+        mStepDescription.setText(mStep.getDescription());
+        checkShowDescription();
+    }
+
+    private void checkShowDescription() {
+        if (isLandscapeOrientation() && !isTabletMode()){
+            if (mStepVideo.getVisibility() == View.VISIBLE ||
+                    mStepImage.getVisibility() == View.VISIBLE){
+                mStepDescription.setVisibility(View.INVISIBLE);
+            }
         }
+    }
+
+    private boolean isLandscapeOrientation() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    private boolean isTabletMode() {
+        return getResources().getBoolean(R.bool.isTablet);
     }
 
     private void hideVideo() {
@@ -117,14 +134,20 @@ public class StepDetailFragment extends Fragment {
 
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.seekTo(mVideoPosition);
-            mExoPlayer.setPlayWhenReady(true);
+            if (isTabletMode() && isLandscapeOrientation()) {
+                mExoPlayer.setPlayWhenReady(true);
+            } else {
+                mExoPlayer.setPlayWhenReady(false);
+            }
         }
 
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putLong(SAVED_PLAYER_POSITION, mExoPlayer.getContentPosition());
+        if (mExoPlayer != null) {
+            outState.putLong(SAVED_PLAYER_POSITION, mExoPlayer.getContentPosition());
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -145,5 +168,17 @@ public class StepDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+    }
+
+    public void pausePlayer() {
+        if (mExoPlayer != null){
+            mExoPlayer.setPlayWhenReady(false);
+        }
+    }
+
+    public void resumePlayer() {
+        if (mExoPlayer != null){
+            mExoPlayer.setPlayWhenReady(true);
+        }
     }
 }
