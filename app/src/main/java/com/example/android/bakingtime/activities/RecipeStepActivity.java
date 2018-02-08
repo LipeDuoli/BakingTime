@@ -18,6 +18,7 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
 
     private Recipe mRecipe;
     private boolean mIsTwoPaneMode;
+    private Intent mCurrentIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,24 +26,37 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
         setContentView(R.layout.activity_recipe_step);
         ButterKnife.bind(this);
 
-        if (getIntent().hasExtra(EXTRA_RECIPE)) {
-            mRecipe = getIntent().getParcelableExtra(EXTRA_RECIPE);
+        mCurrentIntent = getIntent();
+
+        if (mCurrentIntent.hasExtra(EXTRA_RECIPE)) {
+            mRecipe = mCurrentIntent.getParcelableExtra(EXTRA_RECIPE);
             getSupportActionBar().setTitle(mRecipe.getName());
         }
 
         mIsTwoPaneMode = findViewById(R.id.step_detail_frame) != null;
 
         // if saved instance is not null, fragment is already initialized
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
+            initStepFragment();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.hasExtra(EXTRA_RECIPE)) {
+            mCurrentIntent = intent;
+            mRecipe = mCurrentIntent.getParcelableExtra(EXTRA_RECIPE);
+            getSupportActionBar().setTitle(mRecipe.getName());
             initStepFragment();
         }
     }
 
     private void initStepFragment() {
         RecipeStepFragment stepFragment = new RecipeStepFragment();
-        stepFragment.setArguments(getIntent().getExtras());
+        stepFragment.setArguments(mCurrentIntent.getExtras());
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.recipe_step_frame, stepFragment)
+                .replace(R.id.recipe_step_frame, stepFragment)
                 .commit();
     }
 
@@ -50,7 +64,7 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
     public void onStepSelected(int stepPosition) {
         Step stepSelected = mRecipe.getSteps().get(stepPosition);
 
-        if (mIsTwoPaneMode){
+        if (mIsTwoPaneMode) {
             StepDetailFragment stepDetailFragment = new StepDetailFragment();
 
             Bundle bundle = new Bundle();

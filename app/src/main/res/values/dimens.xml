@@ -3,4 +3,6 @@
     <dimen name="video_heigh_size">203dp</dimen>
     <dimen name="video_heigh_size_tablet">303dp</dimen>
     <dimen name="recipe_img_height">150dp</dimen>
+
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

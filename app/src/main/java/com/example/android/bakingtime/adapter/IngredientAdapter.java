@@ -38,10 +38,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         Ingredient ingredient = mIngredients.get(position);
 
-        holder.mIngredientName.setText(mContext.getString(R.string.ingredients_display,
-                IngredientUtil.formatQuantity(ingredient.getQuantity()),
-                ingredient.getMeasure(),
-                ingredient.getIngredient()));
+        holder.mIngredientName.setText(IngredientUtil.formatIngredientName(mContext, ingredient));
     }
 
     @Override

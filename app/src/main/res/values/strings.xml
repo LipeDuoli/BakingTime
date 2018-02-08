@@ -2,4 +2,8 @@
     <string name="app_name">Baking Time</string>
     <string name="ingredients">Ingredients</string>
     <string name="ingredients_display">\u25cf %1$s %2$s of %3$s</string>
+
+    <string name="widget_configure_activity_title">Select a recipe</string>
+    <string name="widget_title">Recipe Ingredients</string>
+    <string name="widget_empty_list">This recipe not have any ingredient</string>
 </resources>
