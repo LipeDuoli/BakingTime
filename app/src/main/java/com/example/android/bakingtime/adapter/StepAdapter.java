@@ -18,6 +18,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     private List<Step> mSteps;
     private StepAdapterOnClickHandler mOnClickHandler;
+    private View mLastSelectedView;
 
     public StepAdapter(List<Step> steps, StepAdapterOnClickHandler onClickHandler) {
         this.mSteps = steps;
@@ -62,7 +63,16 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
+            changeSelectedBackground(view);
             mOnClickHandler.onClickStep(getAdapterPosition());
+        }
+
+        private void changeSelectedBackground(View view) {
+            view.setSelected(true);
+            if (mLastSelectedView != null){
+                mLastSelectedView.setSelected(false);
+            }
+            mLastSelectedView = view;
         }
     }
 }
