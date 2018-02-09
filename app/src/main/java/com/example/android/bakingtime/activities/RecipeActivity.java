@@ -22,9 +22,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
+public class RecipeActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
 
-    private static String TAG = MainActivity.class.getSimpleName();
+    private static String TAG = RecipeActivity.class.getSimpleName();
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecipeRecyclerView;
