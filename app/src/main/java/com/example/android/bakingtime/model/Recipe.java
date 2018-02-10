@@ -23,6 +23,15 @@ public class Recipe implements Parcelable {
     @SerializedName("steps")
     private List<Step> steps;
 
+    public Recipe(int id, String name, int serving, String image, List<Ingredient> ingredients, List<Step> steps) {
+        this.id = id;
+        this.name = name;
+        this.serving = serving;
+        this.image = image;
+        this.ingredients = ingredients;
+        this.steps = steps;
+    }
+
     public int getId() {
         return id;
     }

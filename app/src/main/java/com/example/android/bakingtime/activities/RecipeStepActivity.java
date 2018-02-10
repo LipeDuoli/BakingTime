@@ -3,6 +3,7 @@ package com.example.android.bakingtime.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.bakingtime.R;
@@ -86,5 +87,10 @@ public class RecipeStepActivity extends AppCompatActivity implements RecipeStepF
             stepDetailIntent.putExtra(StepDetailActivity.EXTRA_RECIPE_NAME, mRecipe.getName());
             startActivity(stepDetailIntent);
         }
+    }
+
+    @VisibleForTesting
+    public boolean isTwoPaneMode(){
+        return mIsTwoPaneMode;
     }
 }
